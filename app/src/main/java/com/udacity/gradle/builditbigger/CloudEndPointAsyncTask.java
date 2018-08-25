@@ -3,6 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -14,9 +15,10 @@ import java.io.IOException;
 
 public class CloudEndPointAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
 
+    private static final String TAG = CloudEndPointAsyncTask.class.getSimpleName();
     private MyApi myApiService = null;
     private Context context;
-    private String result;
+    //private String result;
 
     private DataLoadCompleteCallback dataLoadCompleteCallback;
 
@@ -49,7 +51,8 @@ public class CloudEndPointAsyncTask extends AsyncTask<Pair<Context, String>, Voi
         try {
             return myApiService.sayHi(name).execute().getData();
         } catch (IOException e) {
-            return e.getMessage();
+            Log.e(TAG, e.getMessage());
+            return null;
         }
 
     }
@@ -58,11 +61,11 @@ public class CloudEndPointAsyncTask extends AsyncTask<Pair<Context, String>, Voi
     protected void onPostExecute(String result) {
         if (dataLoadCompleteCallback != null) {
             dataLoadCompleteCallback.onDataLoaded(result);
-            this.result = result;
+            //this.result = result;
         }
     }
 
-    public String getResult() {
+    /*public String getResult() {
         return result;
-    }
+    }*/
 }
